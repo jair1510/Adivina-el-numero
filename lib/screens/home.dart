@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -14,6 +16,46 @@ class _HomePageState extends State<HomePage> {
   List<String> _menor = [];
   List<String> _historial = [];
   double _currentSliderValue = 0;
+  late int _secretNumber;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _start();
+  }
+
+  void _start() {
+    setState(() {
+      _secretNumber = _generateSecretNumber();
+      print('secret ' + _secretNumber.toString());
+    });
+  }
+
+  int _generateSecretNumber() {
+    Random random = Random();
+    return random.nextInt(_getMaxNumberForDifficulty()) + 1;
+  }
+
+  int _getMaxNumberForDifficulty() {
+    switch (_currentSliderValue.round()) {
+      case 0:
+        _intentos = 5;
+        return 10;
+      case 1:
+        _intentos = 8;
+        return 20;
+      case 2:
+        _intentos = 15;
+        return 100;
+      case 3:
+        _intentos = 25;
+        return 1000;
+      default:
+        _intentos = 5;
+        return 10; // Default to easy if history is somehow corrupted
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -79,6 +121,8 @@ class _HomePageState extends State<HomePage> {
             onChanged: (double value) {
               setState(() {
                 _currentSliderValue = value;
+
+                _start();
               });
             },
           ),

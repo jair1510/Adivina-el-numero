@@ -64,11 +64,19 @@ class _HomePageState extends State<HomePage> {
       _intentos--;
       if (_number == _secretNumber) {
         _historial.add(_number.toString());
+        _mayor.clear();
+        _menor.clear();
         _start();
       } else if (_number < _secretNumber) {
         _mayor.add(_number.toString());
       } else {
         _menor.add(_number.toString());
+      }
+      if (_intentos == 0) {
+        _historial.add(_number.toString());
+        _mayor.clear();
+        _menor.clear();
+        _start();
       }
     });
   }
@@ -166,7 +174,7 @@ class _HomePageState extends State<HomePage> {
           children: [
             Text(title),
             SizedBox(
-              height: 100,
+              height: 250,
               child: ListView(
                 children: items.map((String item) {
                   return ListTile(

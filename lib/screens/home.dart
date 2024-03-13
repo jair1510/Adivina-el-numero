@@ -89,7 +89,7 @@ class _HomePageState extends State<HomePage> {
         _menor.add(_number.toString());
       }
       if (_intentos == 0) {
-        _historial.add(History(_number.toString(), false));
+        _historial.add(History(_secretNumber.toString(), false));
         _mayor.clear();
         _menor.clear();
         _start();

@@ -14,7 +14,7 @@ class _HomePageState extends State<HomePage> {
   int _intentos = 0;
   List<String> _mayor = [];
   List<String> _menor = [];
-  List<String> _historial = [];
+  List<History> _historial = [];
   double _currentSliderValue = 0;
   late int _secretNumber, _number;
 
@@ -28,7 +28,6 @@ class _HomePageState extends State<HomePage> {
   void _start() {
     setState(() {
       _secretNumber = _generateSecretNumber();
-      print('secret ' + _secretNumber.toString());
     });
   }
 
@@ -63,7 +62,7 @@ class _HomePageState extends State<HomePage> {
       _controller.clear();
       _intentos--;
       if (_number == _secretNumber) {
-        _historial.add(_number.toString());
+        _historial.add(History(_number.toString(), true));
         _mayor.clear();
         _menor.clear();
         _start();
@@ -73,7 +72,7 @@ class _HomePageState extends State<HomePage> {
         _menor.add(_number.toString());
       }
       if (_intentos == 0) {
-        _historial.add(_number.toString());
+        _historial.add(History(_number.toString(), false));
         _mayor.clear();
         _menor.clear();
         _start();
@@ -133,7 +132,7 @@ class _HomePageState extends State<HomePage> {
               ),
               Expanded(
                 flex: 3,
-                child: buildContainer('Historial', _historial),
+                child: historyContainer('Historial', _historial),
               ),
             ],
           ),
@@ -189,6 +188,46 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  Widget historyContainer(String title, List<History> items) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        height: 300, // Cambia la altura según sea necesario
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10.0),
+          border: Border.all(
+            color: Theme.of(context).colorScheme.onPrimaryContainer,
+            width: 2.0,
+          ),
+        ),
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            Text(title),
+            SizedBox(
+              height: 250,
+              child: ListView(
+                children: items.map((History item) {
+                  return ListTile(
+                    title: Center(
+                      child: Text(
+                        item.number,
+                        style: TextStyle(
+                          color: item.isCorrect ? Colors.green : Colors.red,
+                        ),
+                      ),
+                    ),
+                  );
+                }).toList(),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   String _getDifficultyLabel(int value) {
     switch (value) {
       case 0:
@@ -203,4 +242,11 @@ class _HomePageState extends State<HomePage> {
         return '';
     }
   }
+}
+
+class History {
+  final String number;
+  final bool isCorrect;
+
+  History(this.number, this.isCorrect);
 }

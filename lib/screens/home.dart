@@ -58,7 +58,25 @@ class _HomePageState extends State<HomePage> {
 
   void _guessNumber() {
     setState(() {
-      _number = int.tryParse(_controller.text) as int;
+      String? input = _controller.text.trim();
+      if (input.isEmpty) {
+        _showSnackBar('Por favor, ingrese un número.');
+        return;
+      }
+
+      try {
+        _number = int.parse(input);
+      } catch (e) {
+        _showSnackBar('Por favor, ingrese un número válido.');
+        return;
+      }
+
+      if (_number < 1 || _number > _getMaxNumberForDifficulty()) {
+        _showSnackBar(
+            'Por favor, ingrese un número dentro del rango permitido.');
+        return;
+      }
+
       _controller.clear();
       _intentos--;
       if (_number == _secretNumber) {
@@ -78,6 +96,30 @@ class _HomePageState extends State<HomePage> {
         _start();
       }
     });
+  }
+
+  void _showSnackBar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        duration: Duration(seconds: 3),
+      ),
+    );
+  }
+
+  String _getDifficultyLabel(int value) {
+    switch (value) {
+      case 0:
+        return 'Fácil';
+      case 1:
+        return 'Medio';
+      case 2:
+        return 'Avanzado';
+      case 3:
+        return 'Extremo';
+      default:
+        return '';
+    }
   }
 
   @override
@@ -226,21 +268,6 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
-  }
-
-  String _getDifficultyLabel(int value) {
-    switch (value) {
-      case 0:
-        return 'Fácil';
-      case 1:
-        return 'Medio';
-      case 2:
-        return 'Avanzado';
-      case 3:
-        return 'Extremo';
-      default:
-        return '';
-    }
   }
 }
 

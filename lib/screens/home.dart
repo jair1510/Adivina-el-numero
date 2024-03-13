@@ -20,7 +20,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _start();
   }
@@ -52,7 +51,7 @@ class _HomePageState extends State<HomePage> {
         return 1000;
       default:
         _intentos = 5;
-        return 10; // Default to easy if history is somehow corrupted
+        return 10;
     }
   }
 
@@ -126,7 +125,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'Adivina el numero',
           style: TextStyle(color: Colors.white),
         ),
@@ -142,7 +141,7 @@ class _HomePageState extends State<HomePage> {
                   padding: const EdgeInsets.all(8.0),
                   child: TextField(
                     keyboardType: TextInputType.number,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                       labelText: 'Numero',
                     ),
@@ -155,7 +154,7 @@ class _HomePageState extends State<HomePage> {
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
                   children: [
-                    Text('Intentos'),
+                    const Text('Intentos'),
                     Text(_intentos.toString()),
                   ],
                 ),
@@ -219,7 +218,7 @@ class _HomePageState extends State<HomePage> {
               child: ListView(
                 children: items.map((String item) {
                   return ListTile(
-                    title: Text(item),
+                    title: Center(child: Text(item)),
                   );
                 }).toList(),
               ),

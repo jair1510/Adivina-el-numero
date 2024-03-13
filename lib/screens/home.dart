@@ -16,7 +16,7 @@ class _HomePageState extends State<HomePage> {
   List<String> _menor = [];
   List<String> _historial = [];
   double _currentSliderValue = 0;
-  late int _secretNumber;
+  late int _secretNumber, _number;
 
   @override
   void initState() {
@@ -57,6 +57,22 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  void _guessNumber() {
+    setState(() {
+      _number = int.tryParse(_controller.text) as int;
+      _controller.clear();
+      _intentos--;
+      if (_number == _secretNumber) {
+        _historial.add(_number.toString());
+        _start();
+      } else if (_number < _secretNumber) {
+        _mayor.add(_number.toString());
+      } else {
+        _menor.add(_number.toString());
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -82,6 +98,7 @@ class _HomePageState extends State<HomePage> {
                       labelText: 'Numero',
                     ),
                     controller: _controller,
+                    onSubmitted: (_) => _guessNumber(),
                   ),
                 ),
               ),

@@ -109,13 +109,13 @@ class _HomePageState extends State<HomePage> {
   String _getDifficultyLabel(int value) {
     switch (value) {
       case 0:
-        return 'Fácil';
+        return 'Fácil (1-10)';
       case 1:
-        return 'Medio';
+        return 'Medio (1-20)';
       case 2:
-        return 'Avanzado';
+        return 'Avanzado (1-100)';
       case 3:
-        return 'Extremo';
+        return 'Extremo (1-1000)';
       default:
         return '';
     }

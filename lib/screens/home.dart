@@ -70,7 +70,7 @@ class _HomePageState extends State<HomePage> {
         return;
       }
 
-      if (_number < 1 || _number > _getMaxNumberForDifficulty()) {
+      if (_number < 1 || _number > 1000) {
         _showSnackBar(
             'Por favor, ingrese un número dentro del rango permitido.');
         return;
@@ -186,7 +186,8 @@ class _HomePageState extends State<HomePage> {
             onChanged: (double value) {
               setState(() {
                 _currentSliderValue = value;
-
+                _mayor.clear();
+                _menor.clear();
                 _start();
               });
             },
